@@ -23,10 +23,10 @@ def shopping_cart():
     user_input = input("Would you like to 'enter', or 'go back' into the real world.....\nEnter to go forward, Go Back to exit not case sensitive :)  ")
     user_input = user_input.lower()
     if user_input == "enter":
-        print(f"A person of culture I see...\nHere is our whole inventory:")
+        print(f"\nA person of culture I see...\nHere is our whole inventory:")
         for item, price in items.items():
             print(f"{item}: {price}")
-        want_to_shop = input("I know it's not a lot. We are just classic computers after all. \n\t Would you still like to shop? (yes/no or y/n)")
+        want_to_shop = input("\nI know it's not a lot. We are just classic computers after all. \n\t Would you still like to shop? (yes/no or y/n)")
         want_to_shop = want_to_shop.lower()
         while want_to_shop in ['yes', 'y']:
             cart_input = input("What item would you like to add to your cart: ")
@@ -42,7 +42,7 @@ def shopping_cart():
             if want_to_shop_input in ['no', 'n']:
                 break
 
-    print("Here is your e-reciept")
+    print("\nHere is your e-reciept")
     total = 0
     for item, details in cart.items():
         print(f"{item}: {details['quantity']} x ${details['price']} = ${details['quantity'] * details['price']:.2f}")
