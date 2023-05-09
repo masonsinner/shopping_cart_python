@@ -1,57 +1,80 @@
-#List of items a user can buy 
-#User input for the items they want 
-#Empty Dict so they can keep track of their cart (Quanity Item and Price)
-#Option to continue to add/remove from list 
-#View cart when they checkout 
-#When quit show this: 
-#       Your reciept:
-#               5 appples x 1.97 = whatever the math
-#               6 bananas x 2.21 = whatever you get the point 
-#               Total = a shit load with Biden 
+# Create a class called cart that retains items and has methods to add, remove, and show
 
+class ShoppingCart:
+    def __init__(self):
+        self.cart = {}
+        self.items = {
+            'apples': 1.25,
+            'bananas': 1.15,
+            'bread': 2.25,
+            'rice': 1.75,
+            'yogurt': 2.50
+        }
 
-def shopping_cart():
-    cart = {}
-    items = {
-        'apples' : 1.25,
-        'bananas' : 1.15,
-        'bread' : 2.25,
-        'rice' : 1.75,
-        'yogurt' : 2.50
-    }
-    print("Hello and welcome to the first ever META SHOPPING MART!!!!!!")
-    user_input = input("Would you like to 'enter', or 'go back' into the real world.....\nEnter to go forward, Go Back to exit not case sensitive :)  ")
-    user_input = user_input.lower()
-    if user_input == "enter":
-        print(f"\nA person of culture I see...\nHere is our whole inventory:")
-        for item, price in items.items():
-            print(f"{item}: {price}")
-        want_to_shop = input("\nI know it's not a lot. We are just classic computers after all. \n\t Would you still like to shop? (yes/no or y/n)")
-        want_to_shop = want_to_shop.lower()
-        while want_to_shop in ['yes', 'y']:
-            cart_input = input("What item would you like to add to your cart: ")
-            if cart_input in items:
-                if cart_input in cart:
-                    cart[cart_input]['quantity'] += 1
-                else:
-                    cart[cart_input] = {'quantity': 1, 'price': items[cart_input]}
-                print(f"{cart_input} added to cart!")
+    def display_items_for_sale(self):
+        print("\nHere are the items we have for sale:")
+        for item, price in self.items.items():
+            print(f"{item}: ${price:.2f}")
+        print()
+
+    def add_to_cart(self, item):
+        if item in self.items:
+            if item in self.cart:
+                self.cart[item]['quantity'] += 1
             else:
-                print(f"Sorry, {cart_input} is not in stock currently.")
-            want_to_shop_input = input("Would you like to add more items to your cart? (yes/no or y/n)").lower()
-            if want_to_shop_input in ['no', 'n']:
+                self.cart[item] = {'quantity': 1, 'price': self.items[item]}
+            print(f"{item} added to cart!")
+        else:
+            print(f"Sorry, {item} is not in stock currently.")
+
+    def remove_from_cart(self, item):
+        if item in self.cart:
+            self.cart[item]['quantity'] -= 1
+            if self.cart[item]['quantity'] == 0:
+                del self.cart[item]
+            print(f"{item} removed from cart!")
+        else:
+            print(f"{item} is not in your cart.")
+
+    def display_cart(self):
+        print("\nHere are the items in your cart:")
+        for item, details in self.cart.items():
+            print(f"{item}: {details['quantity']} x ${details['price']} = ${details['quantity'] * details['price']:.2f}")
+        print()
+
+    def checkout(self):
+        print("\nHere is your e-receipt:")
+        total = 0
+        for item, details in self.cart.items():
+            print(f"{item}: {details['quantity']} x ${details['price']} = ${details['quantity'] * details['price']:.2f}")
+            total += details['quantity'] * details['price']
+        print(f"\nYour total is ${total:.2f}")
+        print("Thank you for shopping with us!\nDon't forget to give a good review on Yelp!")
+        self.cart = {}
+
+    def start_shopping(self):
+        print("Hello and welcome to the first ever META SHOPPING MART!!!!!!")
+        while True:
+            user_input = input("\nEnter '1' to display items for sale\nEnter '2' to add an item to your cart\nEnter '3' to remove an item from your cart\nEnter '4' to display your cart\nEnter '5' to checkout\nEnter '6' to exit\n")
+            if user_input == '1':
+                self.display_items_for_sale()
+            elif user_input == '2':
+                item = input("What item would you like to add to your cart: ")
+                self.add_to_cart(item)
+            elif user_input == '3':
+                item = input("What item would you like to remove from your cart: ")
+                self.remove_from_cart(item)
+            elif user_input == '4':
+                self.display_cart()
+            elif user_input == '5':
+                self.checkout()
+            elif user_input == '6':
                 break
+            else:
+                print("Invalid input, please try again.")
 
-    print("\nHere is your e-reciept")
-    total = 0
-    for item, details in cart.items():
-        print(f"{item}: {details['quantity']} x ${details['price']} = ${details['quantity'] * details['price']:.2f}")
-        total += details['quantity'] * details['price']
-    print(f"\n Your total is ${total:.2f}")
-    print("Thank you for shopping with us! \n\t Don't forget to give a good review on Yelp!")
-            
+cart = ShoppingCart()
+cart.start_shopping()
 
 
-        
-
-shopping_cart()
+#works in VS Code
